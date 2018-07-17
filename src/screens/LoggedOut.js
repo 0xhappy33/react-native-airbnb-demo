@@ -19,6 +19,10 @@ export default class LoggedOut extends Component {
     alert('Create account pressed');
   }
 
+  onMoreOptionPress() {
+    alert('More option pressed');
+  }
+
   render() {
     return (
       <View style={styles.wrapper}>
@@ -41,9 +45,20 @@ export default class LoggedOut extends Component {
             handleOnPress={this.onCreateAccount}
           />
 
-          <TouchableHighlight>
-            <Text>More option</Text>
+          <TouchableHighlight
+            style={styles.moreOptionButton}
+            onPress={this.onMoreOptionPress}
+          >
+            <Text style={styles.moreOptionText}>More option</Text>
           </TouchableHighlight>
+
+          <View style={styles.termAndCondition}>
+            <Text style={styles.termText}>By tapping Continue, Create Account or More option,</Text>
+            <Text style={styles.termText}>I agree to Airbnb Term of services,
+            Payments Term of services, Privacy policy, Guest Refund Policy,
+             and Host Guarantee Terms
+             </Text>
+          </View>
         </View>
       </View>
     );
@@ -80,4 +95,22 @@ const styles = StyleSheet.create({
     left: 20,
     zIndex: 8
   },
+  moreOptionButton: {
+    marginTop: 15,
+  },
+  moreOptionText: {
+    color: colors.white,
+    fontSize: 16,
+  },
+  termAndCondition: {
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    marginTop: 20
+  },
+  termText: {
+    color: colors.white,
+    fontSize: 13,
+    fontWeight: '600',
+  }
 });
