@@ -2,11 +2,12 @@ import React from 'react';
 import {
   View
 } from 'react-native';
-import LoggedOut from './src/screens/LoggedOut';
+import Login from './src/screens/Login';
+//import LoggedOut from './src/screens/LoggedOut';
 
 const App = () => (
   <View style={{ flex: 1 }}>
-    <LoggedOut />
+    <Login />
   </View>
 );
 

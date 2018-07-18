@@ -12,15 +12,15 @@ import RoundedButton from '../components/buttons/RoundedButton';
 export default class LoggedOut extends Component {
 
   onFacebookPress() {
-    alert('Facebook buttons pressed');
+    //alert('Facebook buttons pressed');
   }
 
   onCreateAccount() {
-    alert('Create account pressed');
+    //alert('Create account pressed');
   }
 
   onMoreOptionPress() {
-    alert('More option pressed');
+    //alert('More option pressed');
   }
 
   render() {
