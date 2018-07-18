@@ -9,15 +9,31 @@ import {
 import colors from '../styles/colors';
 import InputField from '../components/form/InputField';
 import NextArrowButton from '../components/buttons/NextArrowButton';
+import Notification from '../components/Notification';
 
 export default class Login extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      formValid: false
+    };
+    this.handleCloseNotification = this.handleCloseNotification.bind(this);
+  }
+
   handleNextButton() {
-    alert('Next button pressed');
+    //alert('Next button pressed');
+  }
+  handleCloseNotification() {
+    this.setState({ formValid: true });
   }
   render() {
+    const { formValid } = this.state;
+    const showNotification = !formValid;
+    const background = formValid ? colors.green01 : colors.darkOrange;
     return (
       <KeyboardAvoidingView
-        style={styles.wrapper}
+        style={[{ backgroundColor: background }, styles.wrapper]}
       >
         <View style={styles.scrollViewWrapper}>
           <ScrollView style={styles.scrollView}>
@@ -46,6 +62,15 @@ export default class Login extends Component {
               handleNextButton={this.handleNextButton}
             />
           </View>
+          <View style={showNotification ? { marginTop: 10 } : {}}>
+            <Notification
+              showNotification
+              handleCloseNotification={this.handleCloseNotification}
+              type="Error"
+              firstLine="Those credentials don't look right."
+              secondLine="Please try again."
+            />
+          </View>
         </View>
       </KeyboardAvoidingView>
     );
@@ -56,7 +81,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     display: 'flex',
-    backgroundColor: colors.green01,
+    // backgroundColor: colors.green01,
   },
   scrollViewWrapper: {
     marginTop: 70,
