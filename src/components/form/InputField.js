@@ -27,7 +27,7 @@ export default class InputField extends Component {
     const {
       labelText, labelTextSize, labelColor,
       textColor, borderBottomColor, inputType,
-      customStyle
+      customStyle, onChangeText
     } = this.props;
     const { secureInput } = this.state;
     const color = labelColor || colors.white;
@@ -50,6 +50,7 @@ export default class InputField extends Component {
           underlineColorAndroid='transparent'
           style={[{ color: inputColor, borderBottomColor: borderBottom }, styles.inputField]}
           secureTextEntry={secureInput}
+          onChangeText={onChangeText}
         />
       </View>
     );
@@ -63,7 +64,8 @@ InputField.propTypes = {
   textColor: PropTypes.string,
   borderBottomColor: PropTypes.string,
   inputType: PropTypes.string.isRequired,
-  customStyle: PropTypes.object
+  customStyle: PropTypes.object,
+  onChangeText: PropTypes.func
 };
 
 const styles = StyleSheet.create({

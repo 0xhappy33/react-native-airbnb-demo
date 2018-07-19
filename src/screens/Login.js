@@ -16,21 +16,67 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      formValid: false
+      formValid: true,
+      validEmail: false,
+      emailAdress: '',
+      validPassword: false
     };
     this.handleCloseNotification = this.handleCloseNotification.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleNextButton = this.handleNextButton.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.toggleNextButtonState = this.toggleNextButtonState.bind(this);
   }
 
   handleNextButton() {
-    //alert('Next button pressed');
+    if (this.state.emailAddress === 'hatv.3011@gmail.com' && this.state.validPassword) {
+      alert('Success');
+      this.setState({ formValid: true });
+    } else {
+      this.setState({ formValid: false });
+    }
   }
+
   handleCloseNotification() {
     this.setState({ formValid: true });
   }
+
+  handleEmailChange(email) {
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    this.setState({ emailAdress: email });
+
+    if (!this.state.validEmail) {
+      if (emailRegex.test(email)) {
+        this.setState({ validEmail: true });
+      }
+    } else if (!emailRegex.test(email)) {
+        this.setState({ validEmail: false });
+      }
+  }
+
+  handlePasswordChange(password) {
+    if (!this.state.validPassword) {
+      if (password.length > 4) {
+        this.setState({ validPassword: true });
+      }
+    } else if (password.length <= 4) {
+      this.setState({ validPassword: false });
+    }
+  }
+
+  toggleNextButtonState() {
+    const { validEmail, validPassword } = this.state;
+    if (validEmail && validPassword) {
+      return false;
+    }
+    return true;
+  }
+
   render() {
     const { formValid } = this.state;
     const showNotification = !formValid;
     const background = formValid ? colors.green01 : colors.darkOrange;
+    const notificationMarginTop = showNotification ? 10 : 0;
     return (
       <KeyboardAvoidingView
         style={[{ backgroundColor: background }, styles.wrapper]}
@@ -46,6 +92,7 @@ export default class Login extends Component {
               borderBottomColor={colors.white}
               inputType="email"
               customStyle={{ marginBottom: 30 }}
+              onChangeText={this.handleEmailChange}
             />
             <InputField
               labelText="PASSWORD"
@@ -55,14 +102,16 @@ export default class Login extends Component {
               borderBottomColor={colors.white}
               inputType="password"
               customStyle={{ marginBottom: 30 }}
+              onChangeText={this.handlePasswordChange}
             />
           </ScrollView>
           <View style={styles.nextButton}>
             <NextArrowButton
               handleNextButton={this.handleNextButton}
+              disabled={this.toggleNextButtonState()}
             />
           </View>
-          <View style={showNotification ? { marginTop: 10 } : {}}>
+          <View style={[styles.notificationWrapper, { marginTop: notificationMarginTop }]}>
             <Notification
               showNotification
               handleCloseNotification={this.handleCloseNotification}
@@ -81,7 +130,6 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     display: 'flex',
-    // backgroundColor: colors.green01,
   },
   scrollViewWrapper: {
     marginTop: 70,
@@ -100,9 +148,12 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   nextButton: {
-    // position: 'absolute',
     alignItems: 'flex-end',
     right: 20,
     bottom: 20
+  },
+  notificationWrapper: {
+    position: 'absolute',
+    bottom: 0
   }
 });
